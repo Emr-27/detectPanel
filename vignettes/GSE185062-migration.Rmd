@@ -1,0 +1,45 @@
+---
+title: "Migrating the original GSE185062 script"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Migrating the original GSE185062 script}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The original analysis script is retained under
+`inst/legacy/GSE185062_original_workflow.R` for traceability. It should not be
+used as package code because it contains local paths, fixed group labels,
+dataset-specific exclusions, file-writing side effects, and feature selection
+performed before cross-validation.
+
+A package-based analysis should keep those rules in the analysis call:
+
+```{r, eval=FALSE}
+result <- discover_panel(
+  counts = counts,
+  metadata = meta,
+  outcome = "group",
+  positive = "NAFL",
+  exclude = "miR-3687",
+  exclude_regex = "^(CTRL_|HK_)",
+  panel_size = 3,
+  candidate_n = 12,
+  detection_threshold = 10,
+  min_mean = 100,
+  min_median = 20,
+  min_detection = 0.80,
+  min_group_detection = 0.50,
+  min_auc = 0.80,
+  outer_v = 5,
+  outer_repeats = 5,
+  inner_v = 5,
+  inner_repeats = 10,
+  seed = 123
+)
+```
+
+PCA-based observations should be reviewed as quality-control flags rather than
+automatically deleted by a fixed percentile. Differential-expression evidence
+can be produced separately with `run_deseq2()` and joined to the panel results
+for interpretation.

@@ -1,0 +1,80 @@
+---
+title: "Leakage-aware biomarker panel discovery"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Leakage-aware biomarker panel discovery}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Why nested validation is necessary
+
+A biomarker workflow often ranks all markers, chooses a candidate pool, searches
+many panels, and then reports cross-validation for the selected panel. That
+procedure leaks outcome information because the assessment observations have
+already influenced feature selection.
+
+`detectPanel` places the following operations inside each outer analysis set:
+
+1. detectability and stability scoring;
+2. individual marker AUC estimation;
+3. candidate filtering and ranking;
+4. panel combination search on shared inner splits;
+5. scaling, logistic fitting (with deterministic ridge fallback for unstable separation-prone fits), and threshold selection.
+
+The outer assessment set is used only for prediction.
+
+## Synthetic example
+
+```{r example, eval=FALSE}
+library(detectPanel)
+
+set.seed(9)
+n <- 36
+p <- 12
+y <- rep(c("Control", "Case"), each = n / 2)
+counts <- matrix(
+  rpois(p * n, 50), nrow = p,
+  dimnames = list(paste0("m", seq_len(p)), paste0("s", seq_len(n)))
+)
+counts[1:3, y == "Case"] <- counts[1:3, y == "Case"] + 60
+meta <- data.frame(group = y, row.names = colnames(counts))
+
+fit <- discover_panel(
+  counts, meta,
+  outcome = "group",
+  positive = "Case",
+  candidate_n = 7,
+  min_mean = 5,
+  min_median = 2,
+  min_detection = 0.3,
+  min_group_detection = 0.2,
+  min_auc = 0.55,
+  outer_v = 3,
+  outer_repeats = 1,
+  inner_v = 3,
+  inner_repeats = 1
+)
+
+fit$nested$outer_summary
+fit$nested$feature_frequency
+```
+
+## Interpreting the two models
+
+The nested predictions estimate internal generalization performance. After that
+assessment, `discover_panel()` refits the most frequently selected exact panel
+on all samples. This final model is useful for locked prediction on a new cohort,
+but its own training AUC is not an independent validation result.
+
+## Candidate fallback
+
+By default, a training split fails when fewer than `panel_size` markers satisfy
+the prespecified thresholds. This makes threshold violations visible. During
+exploratory work, `allow_fallback = TRUE` may be used to fill the pool with the
+highest-ranked finite markers. The `used_fallback` field must then be reviewed
+and reported.

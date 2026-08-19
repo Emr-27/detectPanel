@@ -1,0 +1,13 @@
+citHeader("To cite detectPanel in publications, use:")
+
+bibentry(
+  bibtype = "Manual",
+  title = "detectPanel: Leakage-Aware Discovery of Small Biomarker Panels",
+  author = person(
+    given = "Fuhao",
+    family = "Jiang",
+    email = "emr39515@gmail.com"
+  ),
+  year = "2026",
+  note = "R package version 0.1.0"
+)

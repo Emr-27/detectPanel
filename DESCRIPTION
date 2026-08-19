@@ -1,0 +1,29 @@
+Package: detectPanel
+Type: Package
+Title: Leakage-Aware Discovery of Small Biomarker Panels
+Version: 0.1.0
+Author: Fuhao Jiang [aut, cre]
+Maintainer: Fuhao Jiang <emr39515@gmail.com>
+Authors@R: c(
+    person(given = "Fuhao", family = "Jiang",
+           email = "emr39515@gmail.com",
+           role = c("aut", "cre"))
+  )
+Description: Discovers small binary-classification biomarker panels from
+    count or expression matrices while prioritizing detectability, expression
+    stability, and univariate discrimination. Candidate filtering and panel
+    selection can be repeated inside nested cross-validation to reduce
+    information leakage. The package provides shared resampling splits,
+    exhaustive small-panel search, logistic model fitting with an automatic
+    ridge fallback for unstable separation-prone fits, out-of-fold evaluation,
+    selection-frequency summaries, and optional 'DESeq2'
+    differential-expression support.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.2.0)
+Imports: ggplot2, graphics, stats, utils
+Suggests: DESeq2, knitr, rmarkdown, pheatmap, testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2026-08-19 06:28:49 UTC; 24791
