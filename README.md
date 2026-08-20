@@ -189,10 +189,8 @@ Detailed workflows are included as package vignettes:
 browseVignettes("detectPanel")
 ```
 
-The repository currently includes vignettes covering:
-
-- nested validation;
-- migration of the GSE185062 miRNA workflow to the package API.
+The package includes a vignette covering nested validation and the
+recommended interpretation of internal validation results.
 
 Function-level documentation is available through R help, for example:
 
@@ -213,4 +211,4 @@ citation("detectPanel")
 
 ## License
 
-`detectPanel` is distributed under the GPL (>= 3) license.
+`detectPanel` is distributed under the MIT License.

@@ -2,20 +2,22 @@
 
 ## Initial release
 
-`detectPanel` provides a leakage-aware workflow for discovery and
-validation of small biomarker panels.
+`detectPanel` provides a leakage-aware workflow for discovery and validation
+of small biomarker panels.
 
 ## Features
 
--   Detectability-aware feature filtering.
--   Small-panel search with nested cross-validation.
--   Logistic panel fitting and prediction.
--   L2-penalized fallback for unstable logistic regression.
--   Prediction support for fitted models.
--   Panel and feature stability summaries.
--   Export and visualization utilities.
+- Detectability-aware feature filtering.
+- Small-panel search with nested cross-validation.
+- Repeated stratified resampling utilities.
+- Logistic panel fitting with automatic L2-penalized fallback for unstable
+  or separation-prone fits.
+- Prediction support for fitted `detectPanel_result` objects.
+- Panel and feature selection-frequency summaries.
+- Export and visualization utilities.
 
 ## Validation
 
-Tested using simulated datasets, unit tests, `R CMD check --as-cran`,
-and an independent GEO miRNA-seq workflow based on GSE185062.
+The package is covered by simulated-data tests and unit tests, including
+nested-validation, model-fitting, prediction, resampling, and plotting
+workflows. Release candidates are checked with `R CMD check --as-cran`.

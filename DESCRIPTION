@@ -19,6 +19,8 @@ Description: Discovers small binary-classification biomarker panels from
     selection-frequency summaries, and optional 'DESeq2'
     differential-expression support.
 License: MIT + file LICENSE
+URL: https://github.com/Emr-27/detectPanel
+BugReports: https://github.com/Emr-27/detectPanel/issues
 Encoding: UTF-8
 Depends: R (>= 4.2.0)
 Imports: ggplot2, graphics, stats, utils
@@ -26,4 +28,3 @@ Suggests: DESeq2, knitr, rmarkdown, pheatmap, testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 NeedsCompilation: no
-Packaged: 2026-08-19 06:28:49 UTC; 24791
